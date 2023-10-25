@@ -10,7 +10,7 @@ For the Future Turtles 44' LED mast this year, I'm hoping to improve the array o
 To make the daisy chaining work, each whip will have it's own mini control box sitting at its feet.
 
 * The mini control box will have a Teensy 4.0 to receive commands from the main controller and display things on the LEDs.
-* Power will be daisy-chained too. To minimize voltage drop, the power will be transmitted at 24 volts. Each control box will have a tiny 24 volt -> 12 volt DC transformer to power the LEDs and an even smaller 12 volt -> 5 volt buck converter to power it's MCU.
+* Power will be daisy-chained too. To minimize voltage drop, the power will be transmitted at 24 volts. Each control box will have a tiny 24 volt -> 12 volt DC transformer to power the LEDs and an even smaller 12 volt -> 5 volt buck converter to power its Teensy.
 * The data will be sent from the controller over a single RS-485 bus which can be daisy-chained from one mini control box to the next.
 
 Right now I am working on the code in **Whips** which runs on a Teensy 4.1 in the main control box, and on all the Teensy 4.0s in the mini control boxes.
