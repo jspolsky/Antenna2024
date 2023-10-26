@@ -1,11 +1,15 @@
 #include <Arduino.h>
+
+
+#include <WS2812Serial.h>
+#define USE_WS2812SERIAL
 #include <FastLED.h>
 
 #include "Util.h"
 
 #ifdef SUB
   #define NUM_LEDS 110
-  #define DATA_PIN 2
+  #define DATA_PIN 8
   CRGB leds[NUM_LEDS];
 #endif
 
@@ -19,7 +23,7 @@ void setup() {
 
 #ifdef SUB
 
-  FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812SERIAL, DATA_PIN, BGR>(leds, NUM_LEDS);
 
 #endif 
 
@@ -48,7 +52,7 @@ void loop() {
 
     for (int i = 0; i < NUM_LEDS; i++)
     {
-      if (i < cLeds) leds[i] = CRGB::Red; else leds[i] = CRGB::Black;
+      if (i < cLeds) leds[i] = CRGB::Red; else leds[i] = CRGB::Green;
     }
 
     cLeds = (cLeds + 1) % NUM_LEDS;
