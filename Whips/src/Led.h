@@ -14,6 +14,8 @@ namespace Led
 {
     void setup();
     void loop();
-    void showSomeLeds(int cLeds);
+
+    void onPacketReceived(const uint8_t *buffer, size_t size);
+
 }
 #endif
