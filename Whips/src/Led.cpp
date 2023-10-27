@@ -1,7 +1,10 @@
 #include <Arduino.h>
 #include <PacketSerial.h>
+#include <CRC32.h>
+
 #include "Util.h"
 #include "Led.h"
+#include "Commands.h"
 
 #if defined(SUB)
 namespace Led
@@ -29,13 +32,27 @@ namespace Led
 
     void onPacketReceived(const uint8_t *buffer, size_t size)
     {
-        if (size == 5 && (buffer[0] == 0 || buffer[0] == 255) && buffer[1] == 'c')
+        dbgprintf("Packet received; size is %d\n", size);
+        if (size < sizeof(UNKNOWNCOMMAND))
         {
-            CRGB rgb(buffer[2], buffer[3], buffer[4]);
-            for (int i = 0; i < NUM_LEDS; i++)
-                leds[i] = rgb;
+            // impossible packet doesn't even have room for checksum and command
+            return;
+        }
 
-            FastLED.show();
+        UNKNOWNCOMMAND *punk = (UNKNOWNCOMMAND *)buffer;
+
+        uint32_t checksum = punk->checksum;
+        punk->checksum = 0; // when packet checksum was calculated, first 4 bytes were 0
+
+        if (checksum != CRC32::calculate(buffer, size))
+        {
+            return;
+        }
+
+        if (punk->chCommand == 'c')
+        {
+            SETWHIPCOLOR *pSetWhipColor = (SETWHIPCOLOR *)buffer;
+            FastLED.showColor(pSetWhipColor->rgb);
         }
     }
 }

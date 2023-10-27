@@ -1,7 +1,10 @@
 #include <Arduino.h>
 #include <PacketSerial.h>
+#include <CRC32.h>
+
 #include "Util.h"
 #include "LedShow.h"
+#include "Commands.h"
 
 #if defined(DOM)
 
@@ -17,7 +20,7 @@ namespace LedShow
 
     void loop()
     {
-        EVERY_N_MILLIS(50)
+        EVERY_N_MILLIS(15)
         {
             static uint8_t hue = 0;
             setWhipColor(255, CHSV(hue, 255, 255));
@@ -29,15 +32,13 @@ namespace LedShow
 
     void setWhipColor(uint8_t whip, CRGB rgb)
     {
-        uint8_t packet[5];
-
-        packet[0] = whip;
-        packet[1] = 'c';
-        packet[2] = rgb.red;
-        packet[3] = rgb.green;
-        packet[4] = rgb.blue;
-
-        packetSerial.send(packet, 5);
+        SETWHIPCOLOR packet;
+        memset(&packet, 0, sizeof(packet));
+        packet.chCommand = 'c';
+        packet.whip = whip;
+        packet.rgb = rgb;
+        packet.checksum = CRC32::calculate((uint8_t *)&packet, sizeof(packet));
+        packetSerial.send((uint8_t *)&packet, sizeof(packet));
     }
 }
 
