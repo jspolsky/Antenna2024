@@ -2,29 +2,38 @@
 
 #include "Util.h"
 #include "Led.h"
+#include "StatusLed.h"
+
+#ifdef DOM
+#define szMode "Dom"
+#endif
+#ifdef SUB
+#define szMode "Sub"
+#endif
 
 void setup()
 {
 
-  pinMode(LED_BUILTIN, OUTPUT);
-
   Util::setup();
   Led::setup();
-
+  StatusLed::setup();
   Serial1.begin(2000000);
+
+  dbgprintf("Whip Controller in " szMode " mode!\n");
 }
 
 void loop()
 {
 
+  StatusLed::loop();
+
 #ifdef DOM
 
-  digitalWrite(LED_BUILTIN, HIGH); // turn the LED on (HIGH is the voltage level)
-  delay(1000);                     // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);  // turn the LED off by making the voltage LOW
-  delay(1000);                     // wait for a second
-  dbgprintf("Sending message at %d\n", millis());
-  Serial1.println("Hello, Sub!");
+  EVERY_N_MILLIS(1000)
+  {
+    Serial1.println("Hello, Sub!");
+    dbgprintf("time: %d\n", millis());
+  }
 
 #endif
 

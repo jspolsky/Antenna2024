@@ -8,12 +8,6 @@ namespace Util
 
     void setup(void)
     {
-#ifdef DEBUG_SC
-        uint32_t tmEnd = millis() + 5000;
-        Serial.begin(250000);
-        while (!Serial && millis() < tmEnd)
-            ;
-#endif
     }
 
     uint32_t FreeMem()
@@ -34,7 +28,7 @@ namespace Util
     }
 } // namespace Util
 
-void binaryPrint( char* rgchDest, uint32_t i )
+void binaryPrint(char *rgchDest, uint32_t i)
 {
     for (uint32_t mask = 0x8000; mask; mask >>= 1)
     {
