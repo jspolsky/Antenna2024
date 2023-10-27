@@ -2,29 +2,34 @@
 #include "Util.h"
 #include "Led.h"
 
+#ifdef SUB
 namespace Led
 {
 
-#ifdef SUB
 #define NUM_LEDS 110
 #define DATA_PIN 8
     CRGB leds[NUM_LEDS];
-#endif
 
     void setup()
     {
-#ifdef SUB
+        Serial1.begin(2000000);
         FastLED.addLeds<WS2812SERIAL, DATA_PIN, BGR>(leds, NUM_LEDS);
-#endif
     }
 
     void loop()
     {
+        static uint32_t cLeds = 0;
+
+        while (Serial1.available())
+        {
+            dbgprintf("%c", Serial1.read());
+            Led::showSomeLeds(cLeds);
+            cLeds++;
+        }
     }
 
     void showSomeLeds(int cLeds)
     {
-#ifdef SUB
         for (int i = 0; i < NUM_LEDS; i++)
         {
             if (i < cLeds % NUM_LEDS)
@@ -33,7 +38,6 @@ namespace Led
                 leds[i] = CRGB::Green;
         }
         FastLED.show();
-#endif
     }
-
 }
+#endif

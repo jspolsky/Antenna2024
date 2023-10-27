@@ -3,6 +3,7 @@
 #include "Util.h"
 #include "Led.h"
 #include "StatusLed.h"
+#include "LedShow.h"
 
 #ifdef DOM
 #define szMode "Dom"
@@ -15,9 +16,13 @@ void setup()
 {
 
   Util::setup();
-  Led::setup();
   StatusLed::setup();
-  Serial1.begin(2000000);
+#ifdef SUB
+  Led::setup();
+#endif
+#ifdef DOM
+  LedShow::setup();
+#endif
 
   dbgprintf("Whip Controller in " szMode " mode!\n");
 }
@@ -28,25 +33,10 @@ void loop()
   StatusLed::loop();
 
 #ifdef DOM
-
-  EVERY_N_MILLIS(1000)
-  {
-    Serial1.println("Hello, Sub!");
-    dbgprintf("time: %d\n", millis());
-  }
-
+  LedShow::loop();
 #endif
 
 #ifdef SUB
-
-  static uint32_t cLeds = 0;
-
-  while (Serial1.available())
-  {
-    dbgprintf("%c", Serial1.read());
-    Led::showSomeLeds(cLeds);
-    cLeds++;
-  }
-
+  Led::loop();
 #endif
 }
