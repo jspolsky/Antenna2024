@@ -1,8 +1,8 @@
-#ifdef DOM
-
 #include <Arduino.h>
 #include "Util.h"
 #include "LedShow.h"
+
+#if defined(DOM)
 
 namespace LedShow
 {

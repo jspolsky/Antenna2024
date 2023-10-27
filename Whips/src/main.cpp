@@ -5,10 +5,9 @@
 #include "StatusLed.h"
 #include "LedShow.h"
 
-#ifdef DOM
+#if defined(DOM)
 #define szMode "Dom"
-#endif
-#ifdef SUB
+#elif defined(SUB)
 #define szMode "Sub"
 #endif
 
@@ -17,10 +16,9 @@ void setup()
 
   Util::setup();
   StatusLed::setup();
-#ifdef SUB
+#if defined(SUB)
   Led::setup();
-#endif
-#ifdef DOM
+#elif defined(DOM)
   LedShow::setup();
 #endif
 
@@ -32,11 +30,9 @@ void loop()
 
   StatusLed::loop();
 
-#ifdef DOM
+#if defined(DOM)
   LedShow::loop();
-#endif
-
-#ifdef SUB
+#elif defined(SUB)
   Led::loop();
 #endif
 }

@@ -5,7 +5,7 @@
  * or chase or something pretty on the whips
  */
 
-#ifdef DOM
+#if defined(DOM)
 
 #include <WS2812Serial.h>
 #define USE_WS2812SERIAL

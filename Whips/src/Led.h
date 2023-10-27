@@ -9,7 +9,7 @@
 #define USE_WS2812SERIAL
 #include <FastLED.h>
 
-#ifdef SUB
+#if defined(SUB)
 namespace Led
 {
     void setup();

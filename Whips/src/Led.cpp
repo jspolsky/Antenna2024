@@ -2,7 +2,7 @@
 #include "Util.h"
 #include "Led.h"
 
-#ifdef SUB
+#if defined(SUB)
 namespace Led
 {
 
