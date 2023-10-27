@@ -17,7 +17,7 @@ namespace LedShow
 
     void loop()
     {
-        EVERY_N_MILLIS(250)
+        EVERY_N_MILLIS(50)
         {
             static uint8_t hue = 0;
             setWhipColor(32, CHSV(hue, 255, 255));

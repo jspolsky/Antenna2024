@@ -32,17 +32,10 @@ namespace Led
         dbgprintf("Packet received size %d\n", size);
         if (size == 6 && buffer[0] == 32 && buffer[1] == 'c')
         {
-            // CRGB rgb(buffer[2], buffer[3], buffer[4]);
-            // for (int i = 0; i < NUM_LEDS; i++)
-            //     leds[i] = rgb;
-
+            CRGB rgb(buffer[2], buffer[3], buffer[4]);
             for (int i = 0; i < NUM_LEDS; i++)
-            {
-                if (i < buffer[2])
-                    leds[i] = CRGB::Red;
-                else
-                    leds[i] = CRGB::Blue;
-            }
+                leds[i] = rgb;
+
             FastLED.show();
         }
     }
