@@ -29,8 +29,7 @@ namespace Led
 
     void onPacketReceived(const uint8_t *buffer, size_t size)
     {
-        dbgprintf("Packet received size %d\n", size);
-        if (size == 6 && buffer[0] == 32 && buffer[1] == 'c')
+        if (size == 5 && (buffer[0] == 0 || buffer[0] == 255) && buffer[1] == 'c')
         {
             CRGB rgb(buffer[2], buffer[3], buffer[4]);
             for (int i = 0; i < NUM_LEDS; i++)
