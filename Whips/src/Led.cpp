@@ -5,6 +5,7 @@
 #include "Util.h"
 #include "Led.h"
 #include "Commands.h"
+#include "DipSwitch.h"
 
 #if defined(SUB)
 namespace Led
@@ -32,7 +33,6 @@ namespace Led
 
     void onPacketReceived(const uint8_t *buffer, size_t size)
     {
-        dbgprintf("Packet received; size is %d\n", size);
         if (size < sizeof(UNKNOWNCOMMAND))
         {
             // impossible packet doesn't even have room for checksum and command
@@ -46,6 +46,13 @@ namespace Led
 
         if (checksum != CRC32::calculate(buffer, size))
         {
+            // packet garbled
+            return;
+        }
+
+        if (punk->whip != DipSwitch::getWhipNumber() && punk->whip != 255)
+        {
+            // not a message for us
             return;
         }
 

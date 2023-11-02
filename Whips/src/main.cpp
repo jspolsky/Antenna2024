@@ -4,6 +4,7 @@
 #include "Led.h"
 #include "StatusLed.h"
 #include "LedShow.h"
+#include "DipSwitch.h"
 
 #if defined(DOM)
 #define szMode "Dom"
@@ -16,10 +17,11 @@ void setup()
 
   Util::setup();
   StatusLed::setup();
-#if defined(SUB)
-  Led::setup();
-#elif defined(DOM)
+#if defined(DOM)
   LedShow::setup();
+#elif defined(SUB)
+  DipSwitch::setup();
+  Led::setup();
 #endif
 
   dbgprintf("Whip Controller in " szMode " mode!\n");
@@ -33,6 +35,7 @@ void loop()
 #if defined(DOM)
   LedShow::loop();
 #elif defined(SUB)
+  DipSwitch::loop();
   Led::loop();
 #endif
 }

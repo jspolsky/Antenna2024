@@ -23,7 +23,7 @@ namespace LedShow
         EVERY_N_MILLIS(15)
         {
             static uint8_t hue = 0;
-            setWhipColor(255, CHSV(hue, 255, 255));
+            setWhipColor(1, CHSV(hue, 255, 255));
             hue = (hue + 1) % 256;
         }
     }
