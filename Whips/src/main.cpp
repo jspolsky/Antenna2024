@@ -6,6 +6,7 @@
 #include "LedShow.h"
 #include "DipSwitch.h"
 #include "SdCard.h"
+#include "Sound.h"
 
 #if defined(DOM)
 #define szMode "Dom"
@@ -22,7 +23,8 @@ void setup()
 #elif defined(SUB)
   DipSwitch::setup();
   Led::setup();
-  SDCard::setup();
+  //  SDCard::setup();
+  Sound::setup();
 #endif
 
   dbgprintf("Whip Controller in " szMode " mode!\n");
@@ -35,6 +37,7 @@ void loop()
 #elif defined(SUB)
   DipSwitch::loop();
   Led::loop();
-  SDCard::loop();
+  //  SDCard::loop();
+  Sound::loop();
 #endif
 }
