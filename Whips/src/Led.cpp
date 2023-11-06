@@ -2,6 +2,7 @@
 #include <PacketSerial.h>
 #include <CRC32.h>
 
+#include "pins.h"
 #include "Util.h"
 #include "Led.h"
 #include "Commands.h"
@@ -12,7 +13,7 @@ namespace Led
 {
 
 #define NUM_LEDS 110
-#define DATA_PIN 8
+
     CRGB leds[NUM_LEDS];
 
     PacketSerial packetSerial;
@@ -23,7 +24,7 @@ namespace Led
         packetSerial.setStream(&Serial1);
         packetSerial.setPacketHandler(&onPacketReceived);
 
-        FastLED.addLeds<WS2812SERIAL, DATA_PIN, BGR>(leds, NUM_LEDS);
+        FastLED.addLeds<WS2812SERIAL, pinLEDStrip, BGR>(leds, NUM_LEDS);
     }
 
     void loop()

@@ -1,4 +1,6 @@
 #include <Arduino.h>
+
+#include "pins.h"
 #include "Util.h"
 #include "StatusLed.h"
 
@@ -8,8 +10,6 @@
 
 namespace StatusLed
 {
-    const uint8_t pinStatus = LED_BUILTIN;
-
     void setup()
     {
         pinMode(pinStatus, OUTPUT);
@@ -22,7 +22,7 @@ namespace StatusLed
         EVERY_N_MILLIS(250)
         {
             fStatusLED = !fStatusLED;
-            digitalWrite(LED_BUILTIN, fStatusLED ? HIGH : LOW);
+            digitalWrite(pinStatus, fStatusLED ? HIGH : LOW);
         }
     }
 }
