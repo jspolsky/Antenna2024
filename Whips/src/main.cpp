@@ -3,7 +3,6 @@
 #include "pins.h"
 #include "Util.h"
 #include "Led.h"
-#include "StatusLed.h"
 #include "LedShow.h"
 #include "DipSwitch.h"
 #include "SdCard.h"
@@ -18,7 +17,6 @@ void setup()
 {
 
   Util::setup();
-  StatusLed::setup();
 #if defined(DOM)
   LedShow::setup();
 #elif defined(SUB)
@@ -32,9 +30,6 @@ void setup()
 
 void loop()
 {
-
-  StatusLed::loop();
-
 #if defined(DOM)
   LedShow::loop();
 #elif defined(SUB)
