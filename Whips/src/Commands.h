@@ -4,22 +4,24 @@
 // from DOM to SUB with instructions to do things to the lights
 //
 
-/* Set an entire whip to the same color */
-
 // Every command includes this at the top:
-typedef struct
+struct cmdUnknown
 {
     uint32_t checksum; // CRC32 checksum
-    char chCommand;    // must be 'c' for setWhipColor
+    char chCommand;    // command. Use 'c' for cmdSetWhipColor, for example
     uint8_t whip;      // which whip should respond. 0 - 23 or 255 for all whips
-} UNKNOWNCOMMAND;
+};
 
-typedef struct
+/* Set an entire whip to the same color */
+/* set chCommand to 'c' */
+struct cmdSetWhipColor : cmdUnknown
 {
+    CRGB rgb; // the color
+};
 
-    uint32_t checksum; // CRC32 checksum
-    char chCommand;    // must be 'c' for setWhipColor
-    uint8_t whip;      // which whip should respond. 0 - 23 or 255 for all whips
-    CRGB rgb;          // the color
-
-} SETWHIPCOLOR;
+/* Play a sound */
+/* set chCommand to 's' */
+struct cmdPlaySound : cmdUnknown
+{
+    char chSoundName; // A printable letter. The sound played will be fx%c.wav from the SD Card
+};

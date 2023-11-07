@@ -7,6 +7,7 @@
 #include "Led.h"
 #include "Commands.h"
 #include "DipSwitch.h"
+#include "Sound.h"
 
 #if defined(SUB)
 namespace Led
@@ -35,13 +36,13 @@ namespace Led
 
     void onPacketReceived(const uint8_t *buffer, size_t size)
     {
-        if (size < sizeof(UNKNOWNCOMMAND))
+        if (size < sizeof(cmdUnknown))
         {
             // impossible packet doesn't even have room for checksum and command
             return;
         }
 
-        UNKNOWNCOMMAND *punk = (UNKNOWNCOMMAND *)buffer;
+        cmdUnknown *punk = (cmdUnknown *)buffer;
 
         uint32_t checksum = punk->checksum;
         punk->checksum = 0; // when packet checksum was calculated, first 4 bytes were 0
@@ -60,8 +61,13 @@ namespace Led
 
         if (punk->chCommand == 'c')
         {
-            SETWHIPCOLOR *pSetWhipColor = (SETWHIPCOLOR *)buffer;
+            cmdSetWhipColor *pSetWhipColor = (cmdSetWhipColor *)buffer;
             FastLED.showColor(pSetWhipColor->rgb);
+        }
+        else if (punk->chCommand == 's')
+        {
+            cmdPlaySound *pPlaySound = (cmdPlaySound *)buffer;
+            Sound::playSound(pPlaySound->chSoundName);
         }
     }
 }
