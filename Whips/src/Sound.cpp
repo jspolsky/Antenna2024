@@ -27,19 +27,20 @@ namespace Sound
     {
         delay(2500);
         AudioMemory(8);
-        if (!(SD.begin(pinSDCardCS)))
+        if (!(SD.begin(BUILTIN_SDCARD)))
         {
             dbgprintf("Unable to access sd card\n");
             return;
         }
 
         dbgprintf("before play\n");
-        playSdWav1.play("bloop.wav");
+        playSdWav1.play("fxA.wav");
         delay(100);
         while (playSdWav1.isPlaying())
             ;
         dbgprintf("after play\n");
         dbgprintf("AudioMemoryUsageMax(); returns %d\n", AudioMemoryUsageMax());
+        dbgprintf("AudioProcessorUsageMax(); returns %d\n", AudioProcessorUsageMax());
     }
 
     void loop()
