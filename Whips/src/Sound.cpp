@@ -27,7 +27,7 @@ namespace Sound
     {
         delay(2500);
         AudioMemory(8);
-        if (!(SD.begin(BUILTIN_SDCARD)))
+        if (!(SD.begin(pinSDCardCS)))
         {
             dbgprintf("Unable to access sd card\n");
             return;

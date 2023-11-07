@@ -8,6 +8,10 @@
 #define USE_WS2812SERIAL
 #include <FastLED.h> /* herein used for macros like EVERY_N_MILLIS only */
 
+// SDCard is not currently used for anything, but
+// you can call setup() to dump a directory of the
+// card just to test if it's working.
+
 namespace SDCard
 {
     File root;

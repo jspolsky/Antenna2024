@@ -23,7 +23,6 @@ void setup()
 #elif defined(SUB)
   DipSwitch::setup();
   Led::setup();
-  //  SDCard::setup();
   Sound::setup();
 #endif
 
@@ -37,7 +36,6 @@ void loop()
 #elif defined(SUB)
   DipSwitch::loop();
   Led::loop();
-  //  SDCard::loop();
   Sound::loop();
 #endif
 }
