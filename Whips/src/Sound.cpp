@@ -18,9 +18,10 @@ namespace Sound
 
     // GUItool: begin automatically generated code
     AudioPlaySdWav playSdWav1; // xy=280,232
-    AudioOutputI2S i2s1;       // xy=559,259
-    AudioConnection patchCord1(playSdWav1, 0, i2s1, 0);
-    AudioConnection patchCord2(playSdWav1, 1, i2s1, 1);
+    AudioAmplifier amp1;       // xy=448,299
+    AudioOutputI2S i2s1;       // xy=649,296
+    AudioConnection patchCord1(playSdWav1, 0, amp1, 0);
+    AudioConnection patchCord2(amp1, 0, i2s1, 0);
     // GUItool: end automatically generated code
 
     void setup()
@@ -31,6 +32,7 @@ namespace Sound
             dbgprintf("Unable to access sd card\n");
             return;
         }
+        amp1.gain(0.2);
     }
 
     void loop()
@@ -43,6 +45,11 @@ namespace Sound
         rgchFileName[2] = chSoundName;
 
         playSdWav1.play(rgchFileName);
+    }
+
+    void setVolume(uint8_t volume)
+    {
+        amp1.gain((float)volume / 255.0);
     }
 
 }

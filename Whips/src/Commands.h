@@ -25,3 +25,10 @@ struct cmdPlaySound : cmdUnknown
 {
     char chSoundName; // A printable letter. The sound played will be fx%c.wav from the SD Card
 };
+
+/* Set volume */
+/* set chCommand to 'v' */
+struct cmdSetVolume : cmdUnknown
+{
+    uint8_t volume; // 0 (off) to 255 (max)
+};

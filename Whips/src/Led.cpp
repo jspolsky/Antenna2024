@@ -69,6 +69,11 @@ namespace Led
             cmdPlaySound *pPlaySound = (cmdPlaySound *)buffer;
             Sound::playSound(pPlaySound->chSoundName);
         }
+        else if (punk->chCommand == 'v')
+        {
+            cmdSetVolume *pSetVolume = (cmdSetVolume *)buffer;
+            Sound::setVolume(pSetVolume->volume);
+        }
     }
 }
 #endif

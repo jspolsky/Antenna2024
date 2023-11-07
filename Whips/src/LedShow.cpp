@@ -29,6 +29,16 @@ namespace LedShow
 
         EVERY_N_SECONDS(10)
         {
+            static uint8_t static_volume = 32;
+            cmdSetVolume pvol;
+            memset(&pvol, 0, sizeof(pvol));
+            pvol.chCommand = 'v';
+            pvol.whip = 1;
+            pvol.volume = static_volume;
+            pvol.checksum = CRC32::calculate((uint8_t *)&pvol, sizeof(pvol));
+            packetSerial.send((uint8_t *)&pvol, sizeof(pvol));
+            static_volume = (static_volume + 32) % 256;
+
             cmdPlaySound packet;
             memset(&packet, 0, sizeof(packet));
             packet.chCommand = 's';
