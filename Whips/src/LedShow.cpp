@@ -26,7 +26,7 @@ namespace LedShow
             static uint8_t hue = 0;
 
             cmdSetWhipColor packet(1, CHSV(hue, 255, 255));
-            packet.send(packetSerial);
+            SendPacket(&packet, packetSerial);
             hue = (hue + 1) % 256;
         }
 
@@ -34,11 +34,11 @@ namespace LedShow
         {
             static uint8_t static_volume = 32;
             cmdSetVolume pvol(1, static_volume);
-            pvol.send(packetSerial);
+            SendPacket(&pvol, packetSerial);
             static_volume = (static_volume + 32) % 256;
 
             cmdPlaySound packet(1, 'A');
-            packet.send(packetSerial);
+            SendPacket(&packet, packetSerial);
         }
     }
 
