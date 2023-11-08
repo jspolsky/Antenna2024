@@ -17,11 +17,15 @@ namespace LedShow
     {
         Serial1.begin(2000000);
         packetSerial.setStream(&Serial1);
+
+        static uint8_t static_volume = 255;
+        cmdSetVolume pvol(1, static_volume);
+        SendPacket(&pvol, packetSerial);
     }
 
     void loop()
     {
-        EVERY_N_MILLIS(15)
+        EVERY_N_MILLIS(100)
         {
             static uint8_t hue = 0;
 
@@ -30,15 +34,13 @@ namespace LedShow
             hue = (hue + 1) % 256;
         }
 
-        EVERY_N_SECONDS(10)
+        EVERY_N_SECONDS(5)
         {
-            static uint8_t static_volume = 32;
-            cmdSetVolume pvol(1, static_volume);
-            SendPacket(&pvol, packetSerial);
-            static_volume = (static_volume + 32) % 256;
+            cmdPlaySound p1(1, 'B');
+            SendPacket(&p1, packetSerial);
 
-            cmdPlaySound packet(1, 'A');
-            SendPacket(&packet, packetSerial);
+            cmdSetWhipColor p2(1, CRGB::White);
+            SendPacket(&p2, packetSerial);
         }
     }
 
