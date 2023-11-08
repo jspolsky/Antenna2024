@@ -28,10 +28,6 @@ namespace Led
 
         FastLED.addLeds<WS2812SERIAL, pinLEDStrip, BGR>(leds, NUM_LEDS);
         FastLED.setBrightness(64);
-
-        delay(2000);
-        dbgprintf("Size of cmdUnknown %d  cmdSetWhipColor %d  cmdPlaySound %d\n",
-                  sizeof(cmdUnknown), sizeof(cmdSetWhipColor), sizeof(cmdPlaySound));
     }
 
     void loop()

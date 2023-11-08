@@ -5,6 +5,8 @@
 // from DOM to SUB with instructions to do things to the lights
 //
 
+#pragma pack(push, 1)
+
 // Every command includes this at the top:
 struct cmdUnknown
 {
@@ -33,3 +35,5 @@ struct cmdSetVolume : cmdUnknown
 {
     uint8_t volume; // 0 (off) to 255 (max)
 };
+
+#pragma pack(pop)
