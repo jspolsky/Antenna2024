@@ -28,11 +28,11 @@ struct cmdSetWhipColor : cmdUnknown
     cmdSetWhipColor(uint8_t whip, CRGB rgb) : cmdUnknown('c', whip),
                                               rgb(rgb)
     {
-        checksum = calcCRC16((uint8_t *)this, sizeof(cmdSetWhipColor));
     }
 
     void send(PacketSerial &ps)
     {
+        checksum = calcCRC16((uint8_t *)this, sizeof(cmdSetWhipColor));
         ps.send((uint8_t *)this, sizeof(cmdSetWhipColor));
     }
 
@@ -46,11 +46,11 @@ struct cmdPlaySound : cmdUnknown
     cmdPlaySound(uint8_t whip, char chSoundName) : cmdUnknown('s', whip),
                                                    chSoundName(chSoundName)
     {
-        checksum = calcCRC16((uint8_t *)this, sizeof(cmdPlaySound));
     }
 
     void send(PacketSerial &ps)
     {
+        checksum = calcCRC16((uint8_t *)this, sizeof(cmdPlaySound));
         ps.send((uint8_t *)this, sizeof(cmdPlaySound));
     }
 
@@ -64,11 +64,11 @@ struct cmdSetVolume : cmdUnknown
     cmdSetVolume(uint8_t whip, uint8_t volume) : cmdUnknown('v', whip),
                                                  volume(volume)
     {
-        checksum = calcCRC16((uint8_t *)this, sizeof(cmdSetVolume));
     }
 
     void send(PacketSerial &ps)
     {
+        checksum = calcCRC16((uint8_t *)this, sizeof(cmdSetVolume));
         ps.send((uint8_t *)this, sizeof(cmdSetVolume));
     }
 
