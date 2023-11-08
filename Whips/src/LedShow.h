@@ -15,8 +15,6 @@ namespace LedShow
 {
     void setup();
     void loop();
-
-    void setWhipColor(uint8_t whip, CRGB rgb);
 }
 
 #endif
