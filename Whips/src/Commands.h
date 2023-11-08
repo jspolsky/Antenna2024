@@ -1,3 +1,4 @@
+#pragma once
 
 //
 // a bunch of data structures sent over the serial wire
@@ -7,7 +8,7 @@
 // Every command includes this at the top:
 struct cmdUnknown
 {
-    uint32_t checksum; // CRC32 checksum
+    uint16_t checksum; // CRC16 checksum
     char chCommand;    // command. Use 'c' for cmdSetWhipColor, for example
     uint8_t whip;      // which whip should respond. 0 - 23 or 255 for all whips
 };

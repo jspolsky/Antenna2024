@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <PacketSerial.h>
-#include <CRC32.h>
+#include <CRC16.h>
+#include <CRC.h>
 
 #include "pins.h"
 #include "Util.h"
@@ -27,6 +28,10 @@ namespace Led
 
         FastLED.addLeds<WS2812SERIAL, pinLEDStrip, BGR>(leds, NUM_LEDS);
         FastLED.setBrightness(64);
+
+        delay(2000);
+        dbgprintf("Size of cmdUnknown %d  cmdSetWhipColor %d  cmdPlaySound %d\n",
+                  sizeof(cmdUnknown), sizeof(cmdSetWhipColor), sizeof(cmdPlaySound));
     }
 
     void loop()
@@ -44,10 +49,10 @@ namespace Led
 
         cmdUnknown *punk = (cmdUnknown *)buffer;
 
-        uint32_t checksum = punk->checksum;
-        punk->checksum = 0; // when packet checksum was calculated, first 4 bytes were 0
+        uint16_t checksum = punk->checksum;
+        punk->checksum = 0; // when packet checksum was calculated, these 2 bytes were 0
 
-        if (checksum != CRC32::calculate(buffer, size))
+        if (checksum != calcCRC16(buffer, size))
         {
             // packet garbled
             return;

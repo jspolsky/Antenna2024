@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <PacketSerial.h>
-#include <CRC32.h>
+#include <CRC16.h>
+#include <CRC.h>
 
 #include "Util.h"
 #include "LedShow.h"
@@ -35,7 +36,7 @@ namespace LedShow
             pvol.chCommand = 'v';
             pvol.whip = 1;
             pvol.volume = static_volume;
-            pvol.checksum = CRC32::calculate((uint8_t *)&pvol, sizeof(pvol));
+            pvol.checksum = calcCRC16((uint8_t *)&pvol, sizeof(pvol));
             packetSerial.send((uint8_t *)&pvol, sizeof(pvol));
             static_volume = (static_volume + 32) % 256;
 
@@ -44,7 +45,7 @@ namespace LedShow
             packet.chCommand = 's';
             packet.whip = 1;
             packet.chSoundName = 'A';
-            packet.checksum = CRC32::calculate((uint8_t *)&packet, sizeof(packet));
+            packet.checksum = calcCRC16((uint8_t *)&packet, sizeof(packet));
             packetSerial.send((uint8_t *)&packet, sizeof(packet));
         }
     }
@@ -58,7 +59,7 @@ namespace LedShow
         packet.chCommand = 'c';
         packet.whip = whip;
         packet.rgb = rgb;
-        packet.checksum = CRC32::calculate((uint8_t *)&packet, sizeof(packet));
+        packet.checksum = calcCRC16((uint8_t *)&packet, sizeof(packet));
         packetSerial.send((uint8_t *)&packet, sizeof(packet));
     }
 }
