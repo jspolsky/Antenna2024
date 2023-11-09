@@ -64,4 +64,15 @@ struct cmdSetVolume : cmdUnknown
     uint8_t volume; // 0 (off) to 255 (max)
 };
 
+/* Set Brightness */
+struct cmdSetBrightness : cmdUnknown
+{
+    cmdSetBrightness(uint8_t whip, uint8_t brightness) : cmdUnknown('b', whip),
+                                                         brightness(brightness)
+    {
+    }
+
+    uint8_t brightness; // 0 (off) to 255 (blinding)
+};
+
 #pragma pack(pop)

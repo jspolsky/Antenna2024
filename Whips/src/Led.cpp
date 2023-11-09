@@ -75,6 +75,11 @@ namespace Led
             cmdSetVolume *pSetVolume = (cmdSetVolume *)buffer;
             Sound::setVolume(pSetVolume->volume);
         }
+        else if (punk->chCommand == 'b')
+        {
+            cmdSetBrightness *pSetBrightness = (cmdSetBrightness *)buffer;
+            FastLED.setBrightness(pSetBrightness->brightness);
+        }
     }
 }
 #endif

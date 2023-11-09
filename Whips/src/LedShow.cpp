@@ -29,6 +29,9 @@ namespace LedShow
             cmdSetWhipColor packet(1, CHSV(hue, 255, 255));
             SendPacket(&packet, packetSerial);
             hue = (hue + 1) % 256;
+
+            cmdSetBrightness p2(255, Potentiometers::brightness);
+            SendPacket(&p2, packetSerial);
         }
 
         EVERY_N_SECONDS(5)
