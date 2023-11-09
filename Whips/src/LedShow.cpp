@@ -6,6 +6,7 @@
 #include "Util.h"
 #include "LedShow.h"
 #include "Commands.h"
+#include "Potentiometers.h"
 
 #if defined(DOM)
 
@@ -17,10 +18,6 @@ namespace LedShow
     {
         Serial1.begin(2000000);
         packetSerial.setStream(&Serial1);
-
-        static uint8_t static_volume = 255;
-        cmdSetVolume pvol(1, static_volume);
-        SendPacket(&pvol, packetSerial);
     }
 
     void loop()
@@ -36,8 +33,11 @@ namespace LedShow
 
         EVERY_N_SECONDS(5)
         {
-            cmdPlaySound p1(1, 'B');
+            cmdPlaySound p1(1, 'A');
             SendPacket(&p1, packetSerial);
+
+            cmdSetVolume pvol(1, Potentiometers::volume);
+            SendPacket(&pvol, packetSerial);
 
             cmdSetWhipColor p2(1, CRGB::White);
             SendPacket(&p2, packetSerial);

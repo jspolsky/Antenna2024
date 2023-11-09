@@ -9,3 +9,5 @@
 // #define pinSDCardCS 10
 
 #define pinStatus LED_BUILTIN
+#define pinBrightness A0
+#define pinVolume A1
