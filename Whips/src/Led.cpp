@@ -28,11 +28,18 @@ namespace Led
 
         FastLED.addLeds<WS2812SERIAL, pinLEDStrip, BGR>(leds, NUM_LEDS);
         FastLED.setBrightness(64);
+
+        pinMode(pinLEDRxIndicator, OUTPUT);
     }
 
     void loop()
     {
         packetSerial.update();
+
+        EVERY_N_MILLIS(1000)
+        {
+            digitalWriteFast(pinLEDRxIndicator, LOW);
+        }
     }
 
     void onPacketReceived(const uint8_t *buffer, size_t size)
@@ -53,6 +60,8 @@ namespace Led
             // packet garbled
             return;
         }
+
+        digitalWriteFast(pinLEDRxIndicator, HIGH);
 
         if (punk->whip != DipSwitch::getWhipNumber() && punk->whip != 255)
         {
