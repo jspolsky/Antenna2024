@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+
+        function showImage() {
+            const num = document.getElementById("numInput").value;
+            const isChecked = document.getElementById("chk").checked;
+
+            let squareFileName = "raw/h" + num.padStart(3, '0') + (isChecked ? "e.gif" : "f.gif");
+            let longFileName = "raw/h" + num.padStart(3, '0') + (isChecked ? "c.gif" : "d.gif");
+
+            var gif = new Image();
+            gif.onload = function () {
+                document.getElementById("squarefilename").textContent = document.getElementById("imagesq").src = squareFileName;
+                document.getElementById("imagelong").src = longFileName;
+            }
+            gif.onerror = function () {
+                document.getElementById("squarefilename").textContent = document.getElementById("imagesq").src = squareFileName.replace(/\.gif$/, '.webp');
+                document.getElementById("imagelong").src = longFileName.replace(/\.gif$/, '.webp');
+            }
+            gif.src = squareFileName;
+        }
+
+        function increment() {
+            document.getElementById("numInput").value = Number(document.getElementById("numInput").value) + 1;
+            document.getElementById("chk").checked = false;
+            showImage();
+        }
+
+        function decrement() {
+            document.getElementById("numInput").value = Number(document.getElementById("numInput").value) - 1;
+            document.getElementById("chk").checked = false;
+            showImage();
+        }
+
+    </script>
+</head>
+
+<body onload="showImage()">
+
+    Enter a number (1-999): <input type="text" value="1" id="numInput" oninput="showImage()">
+    <button onclick="increment()">Next</button>
+    <button onclick="decrement()">Previous</button>
+    Alternate: <input type="checkbox" id="chk" onclick="showImage()">
+
+    <br><br>
+
+
+    <img id="imagesq" style="width: 65%; height: auto;">
+    <p><span id="squarefilename"></span></p>
+    <br><br><br>
+    <img id="imagelong" style="width: 96%; height: auto;">
+
+</body>
+
+</html>

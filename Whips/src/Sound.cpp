@@ -27,11 +27,6 @@ namespace Sound
     void setup()
     {
         AudioMemory(8);
-        if (!(SD.begin(pinSDCardCS)))
-        {
-            dbgprintf("Unable to access sd card\n");
-            return;
-        }
         amp1.gain(0.2);
     }
 

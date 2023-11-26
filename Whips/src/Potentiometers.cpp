@@ -12,6 +12,7 @@ namespace Potentiometers
 
     void setup()
     {
+        dbgprintf("Potentiometers.setup\n");
         pinMode(pinBrightness, INPUT);
         pinMode(pinVolume, INPUT);
     }

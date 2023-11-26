@@ -16,8 +16,10 @@ namespace LedShow
 
     void setup()
     {
+        dbgprintf("In LedShow.Setup\n");
         Serial1.begin(2000000);
         packetSerial.setStream(&Serial1);
+        dbgprintf("...done\n");
     }
 
     void loop()

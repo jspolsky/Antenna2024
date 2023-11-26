@@ -8,6 +8,7 @@
 #include "SdCard.h"
 #include "Sound.h"
 #include "Potentiometers.h"
+#include "Gif.h"
 
 #if defined(DOM)
 #define szMode "Dom"
@@ -19,16 +20,26 @@ void setup()
 {
 
   Util::setup();
+
+  delay(2000);
+
+  if (!(SD.begin(pinSDCardCS)))
+  {
+    dbgprintf("Unable to access sd card\n");
+    return;
+  }
+
+  dbgprintf("Whip Controller in " szMode " mode!\n");
+
 #if defined(DOM)
   LedShow::setup();
   Potentiometers::setup();
+  Gif::setup();
 #elif defined(SUB)
   DipSwitch::setup();
   Led::setup();
   Sound::setup();
 #endif
-
-  dbgprintf("Whip Controller in " szMode " mode!\n");
 }
 
 void loop()
@@ -36,6 +47,7 @@ void loop()
 #if defined(DOM)
   LedShow::loop();
   Potentiometers::loop();
+  Gif::loop();
 #elif defined(SUB)
   DipSwitch::loop();
   Led::loop();
