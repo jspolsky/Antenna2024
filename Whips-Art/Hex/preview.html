@@ -4,34 +4,61 @@
 <head>
     <script>
 
+        const img = document.createElement('img');
+
+        function loadImage(formats, callback, index = 0) {
+            if (index > formats.length) {
+                console.error('no images');
+                callback(null);
+                return;
+            }
+
+            img.onload = () => {
+                callback(formats[index]);
+            }
+            img.onerror = () => {
+                loadImage(formats, callback, index + 1);
+            }
+
+            img.src = formats[index];
+
+        }
+
+
+        function findImageNameForNumber(num) {
+
+        }
+
+
         function showImage() {
             const num = document.getElementById("numInput").value;
-            const isChecked = document.getElementById("chk").checked;
+            const numPadded = num.padStart(3, '0');
 
-            let squareFileName = "raw/h" + num.padStart(3, '0') + (isChecked ? "e.gif" : "f.gif");
-            let longFileName = "raw/h" + num.padStart(3, '0') + (isChecked ? "c.gif" : "d.gif");
+            const formats = [
+                'raw/h' + numPadded + '.gif',
+                'raw/p' + numPadded + '.gif',
+                'raw/h' + numPadded + '.webp',
+                'raw/p' + numPadded + '.webp',
+            ];
 
-            var gif = new Image();
-            gif.onload = function () {
-                document.getElementById("squarefilename").textContent = document.getElementById("imagesq").src = squareFileName;
-                document.getElementById("imagelong").src = longFileName;
-            }
-            gif.onerror = function () {
-                document.getElementById("squarefilename").textContent = document.getElementById("imagesq").src = squareFileName.replace(/\.gif$/, '.webp');
-                document.getElementById("imagelong").src = longFileName.replace(/\.gif$/, '.webp');
-            }
-            gif.src = squareFileName;
+            loadImage(formats, (x) => {
+                document.getElementById("imgResizedNarrow").src = x.replace(/\./, "-resize-pn.");
+                document.getElementById("imgResizedWide").src = x.replace(/\./, "-resize-pw.");
+                document.getElementById("imgSampledNarrow").src = x.replace(/\./, "-sample-pn.");
+                document.getElementById("imgSampledWide").src = x.replace(/\./, "-sample-pw.");
+                document.getElementById("nameResized").textContent = x.replace(/\./, "-resize.");
+                document.getElementById("nameSampled").textContent = x.replace(/\./, "-sample.");
+            });
+
         }
 
         function increment() {
             document.getElementById("numInput").value = Number(document.getElementById("numInput").value) + 1;
-            document.getElementById("chk").checked = false;
             showImage();
         }
 
         function decrement() {
             document.getElementById("numInput").value = Number(document.getElementById("numInput").value) - 1;
-            document.getElementById("chk").checked = false;
             showImage();
         }
 
@@ -40,18 +67,20 @@
 
 <body onload="showImage()">
 
-    Enter a number (1-999): <input type="text" value="1" id="numInput" oninput="showImage()">
+    Enter a number (1-211): <input type="text" value="1" id="numInput" oninput="showImage()">
     <button onclick="increment()">Next</button>
     <button onclick="decrement()">Previous</button>
-    Alternate: <input type="checkbox" id="chk" onclick="showImage()">
 
     <br><br>
-
-
-    <img id="imagesq" style="width: 65%; height: auto;">
-    <p><span id="squarefilename"></span></p>
-    <br><br><br>
-    <img id="imagelong" style="width: 96%; height: auto;">
+    <hr>
+    <h2>Resized</h2> <span id="nameResized"></span><br>
+    <img id="imgResizedNarrow" style="width:25%">
+    <img id="imgResizedWide">
+    <br><br>
+    <hr>
+    <h2>Sampled</h2><span id="nameSampled"></span><br>
+    <img id="imgSampledNarrow" style="width:25%">
+    <img id="imgSampledWide">
 
 </body>
 
