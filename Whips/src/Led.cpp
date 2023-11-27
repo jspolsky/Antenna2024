@@ -58,6 +58,7 @@ namespace Led
         if (checksum != calcCRC16(buffer, size))
         {
             // packet garbled
+            dbgprintf("garbled packet. Size was %d\n", size);
             return;
         }
 
@@ -69,25 +70,51 @@ namespace Led
             return;
         }
 
-        if (punk->chCommand == 'c')
+        switch (punk->chCommand)
+        {
+        case 'c':
         {
             cmdSetWhipColor *pSetWhipColor = (cmdSetWhipColor *)buffer;
             FastLED.showColor(pSetWhipColor->rgb);
         }
-        else if (punk->chCommand == 's')
+        break;
+
+        case 's':
         {
             cmdPlaySound *pPlaySound = (cmdPlaySound *)buffer;
             Sound::playSound(pPlaySound->chSoundName);
         }
-        else if (punk->chCommand == 'v')
+        break;
+
+        case 'v':
         {
             cmdSetVolume *pSetVolume = (cmdSetVolume *)buffer;
             Sound::setVolume(pSetVolume->volume);
         }
-        else if (punk->chCommand == 'b')
+        break;
+
+        case 'b':
         {
+
             cmdSetBrightness *pSetBrightness = (cmdSetBrightness *)buffer;
             FastLED.setBrightness(pSetBrightness->brightness);
+        }
+        break;
+
+        case 'g':
+        {
+            cmdLoadGIF *pLoadGif = (cmdLoadGIF *)buffer;
+            dbgprintf("Requested to load gif number %d\n", pLoadGif->iGifNumber);
+        }
+        break;
+
+        case 'j':
+        {
+            cmdShowGIFFrame *pShowGIFFrame = (cmdShowGIFFrame *)buffer;
+            // if (pShowGIFFrame->frame < 10)
+            dbgprintf("%d...", pShowGIFFrame->frame);
+            break;
+        }
         }
     }
 }
