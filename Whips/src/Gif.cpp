@@ -18,7 +18,7 @@ namespace Gif
 
         dbgprintf("gif.begin called\n");
 
-        if (gif.open("/h001e.gif", GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
+        if (gif.open("/test.gif", GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
         {
             GIFINFO gi;
             dbgprintf("Successfully opened GIF; Canvas size = %d x %d\n", gif.getCanvasWidth(), gif.getCanvasHeight());
@@ -33,9 +33,21 @@ namespace Gif
                 dbgprintf("min delay: %d ms\n", gi.iMinDelay);
             }
 
-            while (gif.playFrame(false, NULL))
+            if (gif.allocFrameBuf(GIFAlloc) == GIF_SUCCESS)
             {
+                int32_t iFrame = 0;
+
+                while (iFrame < gi.iFrameCount && gif.playFrame(false, NULL))
+                {
+                    iFrame++;
+                }
+                gif.freeFrameBuf(GIFFree);
             }
+            else
+            {
+                dbgprintf("Insufficient memory\n");
+            }
+
             gif.close();
         }
         else
@@ -91,6 +103,17 @@ namespace Gif
 
     void GIFDraw(GIFDRAW *pDraw)
     {
+    }
+
+    void *GIFAlloc(uint32_t u32Size)
+    {
+        dbgprintf("Allocating %d for a frame\n", u32Size);
+        return malloc(u32Size);
+    }
+    void GIFFree(void *p)
+    {
+        dbgprintf("Free\n");
+        free(p);
     }
 
 }
