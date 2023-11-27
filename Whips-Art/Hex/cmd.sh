@@ -3,8 +3,8 @@
 # -sample samples individual pixels, preserving sharp colors but looking very jittery by comparison.
 # we may need to play it by ear in terms of which one looks better.
 
-parallel -j 8 'if [ ! -f {.}-resize.gif ]; then convert {} -coalesce -resize 24x110! {.}-resize.gif; fi' ::: raw/[hp]*[0-9].*
-parallel -j 8 'if [ ! -f {.}-sample.gif ]; then convert {} -coalesce -sample 24x110! {.}-sample.gif; fi' ::: raw/[hp]*[0-9].*
+parallel -j 8 'if [ ! -f {.}-resize.gif ]; then convert {} -coalesce -resize 24x110! -rotate 90 {.}-resize.gif; fi' ::: raw/[hp]*[0-9].*
+parallel -j 8 'if [ ! -f {.}-sample.gif ]; then convert {} -coalesce -sample 24x110! -rotate 90 {.}-sample.gif; fi' ::: raw/[hp]*[0-9].*
 
 # generate two previews of each of these, one at 116x110 and one at 1268x110, so we can see what they look like
 

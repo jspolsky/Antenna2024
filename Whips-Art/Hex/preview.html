@@ -42,12 +42,12 @@
             ];
 
             loadImage(formats, (x) => {
-                document.getElementById("imgResizedNarrow").src = x.replace(/\./, "-resize-pn.");
-                document.getElementById("imgResizedWide").src = x.replace(/\./, "-resize-pw.");
-                document.getElementById("imgSampledNarrow").src = x.replace(/\./, "-sample-pn.");
-                document.getElementById("imgSampledWide").src = x.replace(/\./, "-sample-pw.");
-                document.getElementById("nameResized").textContent = x.replace(/\./, "-resize.");
-                document.getElementById("nameSampled").textContent = x.replace(/\./, "-sample.");
+                document.getElementById("imgResizedNarrow").src = x.replace(/\./, "-resize-pn.").replace('webp', 'gif');
+                document.getElementById("imgResizedWide").src = x.replace(/\./, "-resize-pw.").replace('webp', 'gif');
+                document.getElementById("imgSampledNarrow").src = x.replace(/\./, "-sample-pn.").replace('webp', 'gif');
+                document.getElementById("imgSampledWide").src = x.replace(/\./, "-sample-pw.").replace('webp', 'gif');
+                document.getElementById("nameResized").textContent = x.replace(/\./, "-resize.").replace('webp', 'gif');
+                document.getElementById("nameSampled").textContent = x.replace(/\./, "-sample.").replace('webp', 'gif');
             });
 
         }
