@@ -8,7 +8,6 @@
 #define USE_WS2812SERIAL
 #include <FastLED.h>
 
-#if defined(SUB)
 namespace DipSwitch
 {
     void setup();
@@ -17,4 +16,3 @@ namespace DipSwitch
 
     void readWhipNumber();
 }
-#endif

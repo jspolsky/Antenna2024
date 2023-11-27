@@ -12,3 +12,4 @@
 #define pinBrightness A0
 #define pinVolume A1
 #define pinLEDRxIndicator 9
+#define pinGndMeansDom 10

@@ -8,8 +8,6 @@
 #include "Commands.h"
 #include "Potentiometers.h"
 
-#if defined(DOM)
-
 namespace LedShow
 {
     PacketSerial packetSerial;
@@ -66,5 +64,3 @@ namespace LedShow
     }
 
 }
-
-#endif

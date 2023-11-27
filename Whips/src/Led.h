@@ -9,7 +9,6 @@
 #define USE_WS2812SERIAL
 #include <FastLED.h>
 
-#if defined(SUB)
 namespace Led
 {
     void setup();
@@ -18,4 +17,3 @@ namespace Led
     void onPacketReceived(const uint8_t *buffer, size_t size);
 
 }
-#endif

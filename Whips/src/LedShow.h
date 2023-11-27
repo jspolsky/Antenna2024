@@ -9,12 +9,8 @@
 #define USE_WS2812SERIAL
 #include <FastLED.h>
 
-#if defined(DOM)
-
 namespace LedShow
 {
     void setup();
     void loop();
 }
-
-#endif

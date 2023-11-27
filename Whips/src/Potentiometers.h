@@ -8,7 +8,6 @@
 #define USE_WS2812SERIAL
 #include <FastLED.h>
 
-#if defined(DOM)
 namespace Potentiometers
 {
     extern uint8_t brightness, volume;
@@ -16,4 +15,3 @@ namespace Potentiometers
     void setup();
     void loop();
 }
-#endif

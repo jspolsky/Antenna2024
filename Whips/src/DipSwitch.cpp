@@ -3,8 +3,6 @@
 #include "Util.h"
 #include "DipSwitch.h"
 
-#if defined(SUB)
-
 uint8_t whip;
 
 namespace DipSwitch
@@ -42,4 +40,3 @@ namespace DipSwitch
                (digitalReadFast(6) == HIGH ? 0 : 1);
     }
 }
-#endif

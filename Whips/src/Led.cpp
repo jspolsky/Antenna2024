@@ -10,7 +10,6 @@
 #include "DipSwitch.h"
 #include "Sound.h"
 
-#if defined(SUB)
 namespace Led
 {
 
@@ -118,4 +117,3 @@ namespace Led
         }
     }
 }
-#endif

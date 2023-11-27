@@ -10,18 +10,15 @@
 #include "Potentiometers.h"
 #include "Gif.h"
 
-#if defined(DOM)
-#define szMode "Dom"
-#elif defined(SUB)
-#define szMode "Sub"
-#endif
+static bool domMode;
 
 void setup()
 {
 
-  Util::setup();
+  pinMode(pinGndMeansDom, INPUT_PULLUP);
 
-  delay(2000);
+  Util::setup();
+  delay(1000);
 
   if (!(SD.begin(pinSDCardCS)))
   {
@@ -29,28 +26,35 @@ void setup()
     return;
   }
 
-  dbgprintf("Whip Controller in " szMode " mode!\n");
+  domMode = (digitalReadFast(pinGndMeansDom) == LOW);
+  dbgprintf("Whip controller in %s mode\n", domMode ? "DOM" : "SUB");
 
-#if defined(DOM)
-  LedShow::setup();
-  Potentiometers::setup();
-  Gif::setup();
-#elif defined(SUB)
-  DipSwitch::setup();
-  Led::setup();
-  Sound::setup();
-#endif
+  if (domMode)
+  {
+    LedShow::setup();
+    Potentiometers::setup();
+    Gif::setup();
+  }
+  else
+  {
+    DipSwitch::setup();
+    Led::setup();
+    Sound::setup();
+  }
 }
 
 void loop()
 {
-#if defined(DOM)
-  LedShow::loop();
-  Potentiometers::loop();
-  Gif::loop();
-#elif defined(SUB)
-  DipSwitch::loop();
-  Led::loop();
-  Sound::loop();
-#endif
+  if (domMode)
+  {
+    LedShow::loop();
+    Potentiometers::loop();
+    Gif::loop();
+  }
+  else
+  {
+    DipSwitch::loop();
+    Led::loop();
+    Sound::loop();
+  }
 }

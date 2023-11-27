@@ -4,8 +4,6 @@
 #include "pins.h"
 #include "Potentiometers.h"
 
-#if defined(DOM)
-
 namespace Potentiometers
 {
     uint8_t brightness, volume;
@@ -27,4 +25,3 @@ namespace Potentiometers
     }
 
 }
-#endif
