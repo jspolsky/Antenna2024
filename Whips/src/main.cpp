@@ -33,7 +33,6 @@ void setup()
   {
     LedShow::setup();
     Potentiometers::setup();
-    Gif::setup();
   }
   else
   {
@@ -41,6 +40,7 @@ void setup()
     Led::setup();
     Sound::setup();
   }
+  Gif::setup();
 }
 
 void loop()
@@ -49,7 +49,6 @@ void loop()
   {
     LedShow::loop();
     Potentiometers::loop();
-    Gif::loop();
   }
   else
   {

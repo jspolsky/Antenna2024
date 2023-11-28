@@ -4,21 +4,29 @@
 
 #include "Util.h"
 #include "Gif.h"
+#include "DipSwitch.h"
 
 namespace Gif
 {
+    CRGB rgbFrames[MAX_FRAMES][NUM_LEDS]; // the buffer that LoadGif() will load into
+    uint32_t cFrames = 0;                 // the number of frames currently loaded
+
     AnimatedGIF gif;
     File f;
 
     void setup()
     {
-        dbgprintf("in GIF.setup\n");
-        // for now, just experimenting with AnimatedGif library
-        gif.begin(LITTLE_ENDIAN_PIXELS);
+        dbgprintf("Gif::setup()\n");
+        gif.begin(GIF_PALETTE_RGB888);
+    }
 
-        dbgprintf("gif.begin called\n");
+    void loop()
+    {
+    }
 
-        if (gif.open("/test.gif", GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
+    void LoadGif(uint16_t ixGifNumber)
+    {
+        if (gif.open("/primaries.gif", GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
         {
             GIFINFO gi;
             dbgprintf("Successfully opened GIF; Canvas size = %d x %d\n", gif.getCanvasWidth(), gif.getCanvasHeight());
@@ -35,9 +43,11 @@ namespace Gif
 
             if (gif.allocFrameBuf(GIFAlloc) == GIF_SUCCESS)
             {
+                gif.setDrawType(GIF_DRAW_COOKED);
+
                 int32_t iFrame = 0;
 
-                while (iFrame < gi.iFrameCount && gif.playFrame(false, NULL))
+                while (iFrame < gi.iFrameCount && gif.playFrame(false, NULL, &iFrame))
                 {
                     iFrame++;
                 }
@@ -56,8 +66,9 @@ namespace Gif
         }
     }
 
-    void loop()
+    void GetFrame(uint32_t frame, CRGB *leds)
     {
+        memcpy(leds, rgbFrames[frame % cFrames], NUM_LEDS * 3);
     }
 
     void *GIFOpenFile(const char *fname, int32_t *pSize)
@@ -103,6 +114,20 @@ namespace Gif
 
     void GIFDraw(GIFDRAW *pDraw)
     {
+        int line = pDraw->y;
+        if (line == DipSwitch::getWhipNumber())
+        {
+            int32_t frame = *(int32_t *)(pDraw->pUser);
+            dbgprintf("Receiving frame %d for me, whip %d\n", frame, line);
+            memcpy(rgbFrames[frame], pDraw->pPixels, NUM_LEDS * 3);
+
+            dbgprintf("First nine bytes:\n");
+            for (int i = 0; i < 9; i++)
+                dbgprintf("%x ", pDraw->pPixels[i]);
+            dbgprintf("\n");
+
+            cFrames = frame + 1;
+        }
     }
 
     void *GIFAlloc(uint32_t u32Size)
@@ -115,5 +140,4 @@ namespace Gif
         dbgprintf("Free\n");
         free(p);
     }
-
 }

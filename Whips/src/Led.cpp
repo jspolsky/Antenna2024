@@ -9,11 +9,10 @@
 #include "Commands.h"
 #include "DipSwitch.h"
 #include "Sound.h"
+#include "Gif.h"
 
 namespace Led
 {
-
-#define NUM_LEDS 110
 
     CRGB leds[NUM_LEDS];
 
@@ -104,14 +103,15 @@ namespace Led
         {
             cmdLoadGIF *pLoadGif = (cmdLoadGIF *)buffer;
             dbgprintf("Requested to load gif number %d\n", pLoadGif->iGifNumber);
+            Gif::LoadGif(pLoadGif->iGifNumber);
         }
         break;
 
         case 'j':
         {
             cmdShowGIFFrame *pShowGIFFrame = (cmdShowGIFFrame *)buffer;
-            // if (pShowGIFFrame->frame < 10)
-            dbgprintf("%d...", pShowGIFFrame->frame);
+            Gif::GetFrame(pShowGIFFrame->frame, leds);
+            FastLED.show();
             break;
         }
         }

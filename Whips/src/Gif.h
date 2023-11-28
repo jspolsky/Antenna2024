@@ -1,6 +1,10 @@
 #pragma once
 #include <AnimatedGIF.h>
 
+#include <WS2812Serial.h>
+#define USE_WS2812SERIAL
+#include <FastLED.h>
+
 /*
  * Animated GIF handling
  */
@@ -8,7 +12,8 @@
 namespace Gif
 {
     void setup();
-    void loop();
+    void LoadGif(uint16_t ixGifNumber);
+    void GetFrame(uint32_t frame, CRGB *leds);
 
     void *GIFOpenFile(const char *fname, int32_t *pSize);
     void GIFCloseFile(void *pHandle);
