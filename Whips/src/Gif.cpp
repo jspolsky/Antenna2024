@@ -26,28 +26,27 @@ namespace Gif
 
     void LoadGif(uint16_t ixGifNumber)
     {
-        if (gif.open("/primaries.gif", GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
+        uint32_t timeStart = millis();
+        if (gif.open("/004.gif", GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
         {
-            GIFINFO gi;
             dbgprintf("Successfully opened GIF; Canvas size = %d x %d\n", gif.getCanvasWidth(), gif.getCanvasHeight());
 
             // The getInfo() method can be slow since it walks through the entire GIF file to count the frames
             // and gather info about total play time. Comment out this section if you don't need this info
-            if (gif.getInfo(&gi))
-            {
-                dbgprintf("frame count: %d\n", gi.iFrameCount);
-                dbgprintf("duration: %d ms\n", gi.iDuration);
-                dbgprintf("max delay: %d ms\n", gi.iMaxDelay);
-                dbgprintf("min delay: %d ms\n", gi.iMinDelay);
-            }
+            // if (gif.getInfo(&gi))
+            // {
+            //     dbgprintf("frame count: %d\n", gi.iFrameCount);
+            //     dbgprintf("duration: %d ms\n", gi.iDuration);
+            //     dbgprintf("max delay: %d ms\n", gi.iMaxDelay);
+            //     dbgprintf("min delay: %d ms\n", gi.iMinDelay);
+            // }
 
             if (gif.allocFrameBuf(GIFAlloc) == GIF_SUCCESS)
             {
                 gif.setDrawType(GIF_DRAW_COOKED);
 
                 int32_t iFrame = 0;
-
-                while (iFrame < gi.iFrameCount && gif.playFrame(false, NULL, &iFrame))
+                while (gif.playFrame(false, NULL, &iFrame))
                 {
                     iFrame++;
                 }
@@ -59,6 +58,7 @@ namespace Gif
             }
 
             gif.close();
+            dbgprintf("Reading GIF took %d millis\n", millis() - timeStart);
         }
         else
         {
@@ -118,14 +118,7 @@ namespace Gif
         if (line == DipSwitch::getWhipNumber())
         {
             int32_t frame = *(int32_t *)(pDraw->pUser);
-            dbgprintf("Receiving frame %d for me, whip %d\n", frame, line);
             memcpy(rgbFrames[frame], pDraw->pPixels, NUM_LEDS * 3);
-
-            dbgprintf("First nine bytes:\n");
-            for (int i = 0; i < 9; i++)
-                dbgprintf("%x ", pDraw->pPixels[i]);
-            dbgprintf("\n");
-
             cFrames = frame + 1;
         }
     }

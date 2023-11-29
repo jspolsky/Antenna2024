@@ -30,7 +30,7 @@ namespace LedShow
         // This is refreshing every 40 milliseconds
         // Different GIFs actually have different animation times
         // Need to load the gif ourselves to figure it out!
-        EVERY_N_MILLIS(250)
+        EVERY_N_MILLIS(40)
         {
             static cmdShowGIFFrame p3(255, 0);
             static uint32_t frame = 0;
