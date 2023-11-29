@@ -9,6 +9,7 @@
 #include "Sound.h"
 #include "Potentiometers.h"
 #include "Gif.h"
+#include "IR.h"
 
 static bool domMode;
 
@@ -33,6 +34,7 @@ void setup()
   {
     LedShow::setup();
     Potentiometers::setup();
+    IR::setup();
   }
   else
   {
@@ -49,6 +51,7 @@ void loop()
   {
     LedShow::loop();
     Potentiometers::loop();
+    IR::loop();
   }
   else
   {

@@ -1,0 +1,37 @@
+#include <Arduino.h>
+
+#define DECODE_NEC
+#define DECODE_DISTANCE_WIDTH
+#define EXCLUDE_UNIVERSAL_PROTOCOLS
+#define EXCLUDE_EXOTIC_PROTOCOLS
+
+#include <IRremote.hpp>
+
+#include "Util.h"
+#include "IR.h"
+#include "pins.h"
+
+namespace IR
+{
+    void setup()
+    {
+        IrReceiver.begin(pinIR);
+        dbgprintf("IrReceiver ready\n");
+    }
+
+    void loop()
+    {
+        if (IrReceiver.decode())
+        {
+            Serial.print(F("Decoded protocol: "));
+            Serial.print(getProtocolString(IrReceiver.decodedIRData.protocol));
+            Serial.print(F(", decoded raw data: "));
+            Serial.print(IrReceiver.decodedIRData.decodedRawData, HEX);
+            Serial.print(F(", decoded address: "));
+            Serial.print(IrReceiver.decodedIRData.address, HEX);
+            Serial.print(F(", decoded command: "));
+            Serial.println(IrReceiver.decodedIRData.command, HEX);
+            IrReceiver.resume();
+        }
+    }
+}

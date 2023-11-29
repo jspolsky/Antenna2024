@@ -13,3 +13,4 @@
 #define pinVolume A1
 #define pinLEDRxIndicator 9
 #define pinGndMeansDom 10
+#define pinIR 11
