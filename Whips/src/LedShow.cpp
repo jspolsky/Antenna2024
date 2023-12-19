@@ -30,7 +30,8 @@ namespace LedShow
         // This is refreshing every 40 milliseconds
         // Different GIFs actually have different animation times
         // Need to load the gif ourselves to figure it out!
-        EVERY_N_MILLIS(40)
+
+        EVERY_N_MILLIS(250)
         {
             static cmdShowGIFFrame p3(255, 0);
             static uint32_t frame = 0;
@@ -38,27 +39,15 @@ namespace LedShow
             SendPacket(&p3, packetSerial);
         }
 
-        EVERY_N_MILLIS(120)
-        {
-            // static uint8_t hue = 0;
-
-            // cmdSetWhipColor packet(1, CHSV(hue, 255, 255));
-            // SendPacket(&packet, packetSerial);
-            // hue = (hue + 1) % 256;
-
-            cmdSetBrightness p2(255, Potentiometers::brightness);
-            SendPacket(&p2, packetSerial);
-        }
-
-        // EVERY_N_SECONDS(5)
+        // EVERY_N_MILLIS(120)
         // {
-        //     cmdPlaySound p1(1, 'A');
-        //     SendPacket(&p1, packetSerial);
+        //     // static uint8_t hue = 0;
 
-        //     cmdSetVolume pvol(1, Potentiometers::volume);
-        //     SendPacket(&pvol, packetSerial);
+        //     // cmdSetWhipColor packet(1, CHSV(hue, 255, 255));
+        //     // SendPacket(&packet, packetSerial);
+        //     // hue = (hue + 1) % 256;
 
-        //     cmdSetWhipColor p2(1, CRGB::White);
+        //     cmdSetBrightness p2(255, Potentiometers::brightness);
         //     SendPacket(&p2, packetSerial);
         // }
     }

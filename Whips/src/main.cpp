@@ -6,7 +6,6 @@
 #include "LedShow.h"
 #include "DipSwitch.h"
 #include "SdCard.h"
-#include "Sound.h"
 #include "Potentiometers.h"
 #include "Gif.h"
 #include "IR.h"
@@ -40,7 +39,6 @@ void setup()
   {
     DipSwitch::setup();
     Led::setup();
-    Sound::setup();
   }
   Gif::setup();
 }
@@ -57,6 +55,5 @@ void loop()
   {
     DipSwitch::loop();
     Led::loop();
-    Sound::loop();
   }
 }

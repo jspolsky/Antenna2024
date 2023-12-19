@@ -8,7 +8,6 @@
 #include "Led.h"
 #include "Commands.h"
 #include "DipSwitch.h"
-#include "Sound.h"
 #include "Gif.h"
 
 namespace Led
@@ -74,20 +73,6 @@ namespace Led
         {
             cmdSetWhipColor *pSetWhipColor = (cmdSetWhipColor *)buffer;
             FastLED.showColor(pSetWhipColor->rgb);
-        }
-        break;
-
-        case 's':
-        {
-            cmdPlaySound *pPlaySound = (cmdPlaySound *)buffer;
-            Sound::playSound(pPlaySound->chSoundName);
-        }
-        break;
-
-        case 'v':
-        {
-            cmdSetVolume *pSetVolume = (cmdSetVolume *)buffer;
-            Sound::setVolume(pSetVolume->volume);
         }
         break;
 

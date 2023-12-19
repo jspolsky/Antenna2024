@@ -66,17 +66,6 @@ struct cmdShowGIFFrame : cmdUnknown
                     // frames are in the animation. Sub mods it by the number of frames in the animation.
 };
 
-/* Play a sound */
-struct cmdPlaySound : cmdUnknown
-{
-    cmdPlaySound(uint8_t whip, char chSoundName) : cmdUnknown('s', whip),
-                                                   chSoundName(chSoundName)
-    {
-    }
-
-    char chSoundName; // A printable letter. The sound played will be fx%c.wav from the SD Card
-};
-
 /* Set volume */
 struct cmdSetVolume : cmdUnknown
 {
