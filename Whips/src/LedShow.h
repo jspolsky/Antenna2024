@@ -12,5 +12,5 @@
 namespace LedShow
 {
     void setup();
-    void loop();
+    void loop(int ixCommand);
 }

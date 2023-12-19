@@ -26,10 +26,13 @@ namespace Gif
 
     void LoadGif(uint16_t ixGifNumber)
     {
+        char rgchFileName[10];
+        sprintf(rgchFileName, "/%03d.gif", ixGifNumber);
+
         uint32_t timeStart = millis();
-        if (gif.open("/004.gif", GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
+        if (gif.open(rgchFileName, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
         {
-            dbgprintf("Successfully opened GIF; Canvas size = %d x %d\n", gif.getCanvasWidth(), gif.getCanvasHeight());
+            dbgprintf("Successfully opened GIF %s; Canvas size = %d x %d\n", rgchFileName, gif.getCanvasWidth(), gif.getCanvasHeight());
 
             // The getInfo() method can be slow since it walks through the entire GIF file to count the frames
             // and gather info about total play time. Comment out this section if you don't need this info

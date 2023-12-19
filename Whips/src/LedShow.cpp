@@ -20,8 +20,18 @@ namespace LedShow
         dbgprintf("...done\n");
     }
 
-    void loop()
+    // if ixCommand == 1, load next Gif
+    void loop(int ixCommand)
     {
+        static int ixGif = 1;
+        if (ixCommand == 1)
+        {
+            ixGif++;
+            if (ixGif > 12) // UNDONE - just do this if loading the gif fails
+                ixGif = 1;
+            dbgprintf("new gif number %d\n", ixGif);
+        }
+
         // UNDONE
         // This is refreshing every 40 milliseconds
         // Different GIFs actually have different animation times
@@ -29,9 +39,10 @@ namespace LedShow
 
         EVERY_N_MILLIS(40)
         {
-            static cmdShowGIFFrame p3(255, 0, 1); // UNDONE 1 means load 001.gif - need to change which one is playing
+            static cmdShowGIFFrame p3(255, 0, 1);
             static uint32_t frame = 0;
             p3.frame = frame++;
+            p3.iGifNumber = ixGif;
             SendPacket(&p3, packetSerial);
         }
 

@@ -11,5 +11,5 @@
 namespace IR
 {
     void setup();
-    void loop();
+    int loop();
 }

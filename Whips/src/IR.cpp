@@ -19,7 +19,7 @@ namespace IR
         dbgprintf("IrReceiver ready\n");
     }
 
-    void loop()
+    int loop()
     {
         if (IrReceiver.decode())
         {
@@ -32,6 +32,17 @@ namespace IR
             Serial.print(F(", decoded command: "));
             Serial.println(IrReceiver.decodedIRData.command, HEX);
             IrReceiver.resume();
+
+            if (IrReceiver.decodedIRData.decodedRawData)
+            {
+                if (IrReceiver.decodedIRData.command == 0x41)
+                {
+                    // The ⏯️ button - go to the next image
+                    return 1;
+                }
+            }
         }
+
+        return 0;
     }
 }
