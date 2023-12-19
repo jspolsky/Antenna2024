@@ -10,7 +10,7 @@
 
 namespace Potentiometers
 {
-    extern uint8_t brightness, volume;
+    extern uint8_t brightness;
 
     void setup();
     void loop();

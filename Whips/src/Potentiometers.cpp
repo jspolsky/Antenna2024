@@ -12,7 +12,6 @@ namespace Potentiometers
     {
         dbgprintf("Potentiometers.setup\n");
         pinMode(pinBrightness, INPUT);
-        pinMode(pinVolume, INPUT);
     }
 
     void loop()
@@ -20,7 +19,6 @@ namespace Potentiometers
         EVERY_N_MILLIS(100)
         {
             brightness = max(0, min(255, analogRead(pinBrightness) / 4));
-            volume = max(0, min(255, analogRead(pinVolume) / 4));
         }
     }
 

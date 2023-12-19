@@ -10,7 +10,6 @@
 
 #define pinStatus LED_BUILTIN
 #define pinBrightness A0
-#define pinVolume A1
 #define pinLEDRxIndicator 9
 #define pinGndMeansDom 10
 #define pinIR 11
