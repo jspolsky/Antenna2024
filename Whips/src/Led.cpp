@@ -86,15 +86,15 @@ namespace Led
 
         case 'g':
         {
-            cmdLoadGIF *pLoadGif = (cmdLoadGIF *)buffer;
-            dbgprintf("Requested to load gif number %d\n", pLoadGif->iGifNumber);
-            Gif::LoadGif(pLoadGif->iGifNumber);
-        }
-        break;
+            static uint16_t iGifLoaded = 0;
 
-        case 'j':
-        {
             cmdShowGIFFrame *pShowGIFFrame = (cmdShowGIFFrame *)buffer;
+
+            if (iGifLoaded != pShowGIFFrame->iGifNumber)
+            {
+                Gif::LoadGif(iGifLoaded = pShowGIFFrame->iGifNumber);
+                dbgprintf("Loading gif number %d\n", pShowGIFFrame->iGifNumber);
+            }
             Gif::GetFrame(pShowGIFFrame->frame, leds);
             FastLED.show();
             break;

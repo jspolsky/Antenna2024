@@ -43,27 +43,18 @@ struct cmdSetWhipColor : cmdUnknown
     CRGB rgb; // the color
 };
 
-/* Load an animated GIF from a file into memory */
-struct cmdLoadGIF : cmdUnknown
-{
-    cmdLoadGIF(uint8_t whip, uint16_t iGifNumber) : cmdUnknown('g', whip),
-                                                    iGifNumber(iGifNumber)
-    {
-    }
-
-    uint16_t iGifNumber; // We will look for a file named %03d.gif to display
-};
-
-/* Show a single frame from the loaded GIF */
+/* Show a single frame from a GIF */
 struct cmdShowGIFFrame : cmdUnknown
 {
-    cmdShowGIFFrame(uint8_t whip, uint32_t frame) : cmdUnknown('j', whip),
-                                                    frame(frame)
+    cmdShowGIFFrame(uint8_t whip, uint32_t frame, uint16_t iGifNumber) : cmdUnknown('g', whip),
+                                                                         frame(frame),
+                                                                         iGifNumber(iGifNumber)
     {
     }
 
-    uint32_t frame; // frame will be increasing forever because DOM doesn't know how many
-                    // frames are in the animation. Sub mods it by the number of frames in the animation.
+    uint32_t frame;      // frame will be increasing forever because DOM doesn't know how many
+                         // frames are in the animation. Sub mods it by the number of frames in the animation.
+    uint16_t iGifNumber; // We will look for a file named %03d.gif to display
 };
 
 /* Set volume */

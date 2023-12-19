@@ -18,10 +18,6 @@ namespace LedShow
         Serial1.begin(2000000);
         packetSerial.setStream(&Serial1);
         dbgprintf("...done\n");
-
-        // TESTING GIF ANIMATIONS
-        cmdLoadGIF p1(255, 1);
-        SendPacket(&p1, packetSerial);
     }
 
     void loop()
@@ -33,7 +29,7 @@ namespace LedShow
 
         EVERY_N_MILLIS(40)
         {
-            static cmdShowGIFFrame p3(255, 0);
+            static cmdShowGIFFrame p3(255, 0, 1); // UNDONE 1 means load 001.gif - need to change which one is playing
             static uint32_t frame = 0;
             p3.frame = frame++;
             SendPacket(&p3, packetSerial);
