@@ -20,7 +20,7 @@ void SendPacket(T *cmd, PacketSerial &packetSerial)
 // minimize byte size to maximize the throughput
 #pragma pack(push, 1)
 
-// Every command has four bytes at the beginning:
+// Every command has this header:
 struct cmdUnknown
 {
     cmdUnknown(char chCommand, uint8_t whip) : checksum(0),
@@ -57,17 +57,6 @@ struct cmdShowGIFFrame : cmdUnknown
     uint16_t iGifNumber; // We will look for a file named %03d.gif to display
 };
 
-/* Set volume */
-struct cmdSetVolume : cmdUnknown
-{
-    cmdSetVolume(uint8_t whip, uint8_t volume) : cmdUnknown('v', whip),
-                                                 volume(volume)
-    {
-    }
-
-    uint8_t volume; // 0 (off) to 255 (max)
-};
-
 /* Set Brightness */
 struct cmdSetBrightness : cmdUnknown
 {
@@ -77,6 +66,14 @@ struct cmdSetBrightness : cmdUnknown
     }
 
     uint8_t brightness; // 0 (off) to 255 (blinding)
+};
+
+/* ID yourself */
+struct cmdSelfIdentify : cmdUnknown
+{
+    cmdSelfIdentify() : cmdUnknown('i', 255)
+    {
+    }
 };
 
 #pragma pack(pop)

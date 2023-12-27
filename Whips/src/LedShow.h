@@ -9,8 +9,10 @@
 #define USE_WS2812SERIAL
 #include <FastLED.h>
 
+#include "IR.h"
+
 namespace LedShow
 {
     void setup();
-    void loop(int ixCommand);
+    void loop(IR::Op op);
 }

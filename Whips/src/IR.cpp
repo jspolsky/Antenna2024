@@ -19,7 +19,7 @@ namespace IR
         dbgprintf("IrReceiver ready\n");
     }
 
-    int loop()
+    Op loop()
     {
         if (IrReceiver.decode())
         {
@@ -35,14 +35,33 @@ namespace IR
 
             if (IrReceiver.decodedIRData.decodedRawData)
             {
-                if (IrReceiver.decodedIRData.command == 0x41)
+                switch (IrReceiver.decodedIRData.command)
                 {
+                case 0x41:
                     // The ⏯️ button - go to the next image
-                    return 1;
+                    return nextImage;
+
+                case 0x58:
+                    return red;
+
+                case 0x59:
+                    return green;
+
+                case 0x45:
+                    return blue;
+
+                case 0x44:
+                    return white;
+
+                case 0xB:
+                    return flash;
+
+                default:
+                    break;
                 }
             }
         }
 
-        return 0;
+        return noop;
     }
 }

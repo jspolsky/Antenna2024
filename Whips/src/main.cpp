@@ -48,17 +48,9 @@ void loop()
   if (domMode)
   {
     Potentiometers::loop();
-    int IrCommand = IR::loop();
-    if (IrCommand == 1)
-    {
-      dbgprintf("Load next gif baby\n");
-      LedShow::loop(1);
-    }
-    else
-    {
-      LedShow::loop(0);
-    }
-    }
+    IR::Op op = IR::loop();
+    LedShow::loop(op);
+  }
   else
   {
     DipSwitch::loop();

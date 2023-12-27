@@ -10,6 +10,17 @@
 
 namespace IR
 {
+    enum Op
+    {
+        noop,
+        nextImage,
+        red,
+        green,
+        blue,
+        white,
+        flash
+    };
+
     void setup();
-    int loop();
+    Op loop();
 }

@@ -99,6 +99,31 @@ namespace Led
             FastLED.show();
             break;
         }
+
+        case 'i':
+        {
+            uint8_t whip = DipSwitch::getWhipNumber();
+
+            for (int i = 0; i < NUM_LEDS; i++)
+                leds[i] = CRGB::Black;
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int led = i * 20; led < (i + 1) * 20 - 3; led++)
+                {
+                    if (whip & 0x01)
+                        leds[led] = CRGB::White;
+                }
+                for (int led = (i + 1) * 20 - 3; led < (i + 1) * 20; led++)
+                {
+                    leds[led] = CRGB::Red;
+                }
+                whip >>= 1;
+            }
+
+            FastLED.show();
+            break;
+        }
         }
     }
 }
