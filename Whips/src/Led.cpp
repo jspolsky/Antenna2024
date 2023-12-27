@@ -87,17 +87,24 @@ namespace Led
 
         case 'g':
         {
-            static uint16_t iGifLoaded = 0;
-
-            cmdShowGIFFrame *pShowGIFFrame = (cmdShowGIFFrame *)buffer;
-
-            if (iGifLoaded != pShowGIFFrame->iGifNumber)
+            if (DipSwitch::getWhipNumber() <= 23)
             {
-                Gif::LoadGif(iGifLoaded = pShowGIFFrame->iGifNumber);
-                dbgprintf("Loading gif number %d\n", pShowGIFFrame->iGifNumber);
+                static uint16_t iGifLoaded = 0;
+
+                cmdShowGIFFrame *pShowGIFFrame = (cmdShowGIFFrame *)buffer;
+
+                if (iGifLoaded != pShowGIFFrame->iGifNumber)
+                {
+                    Gif::LoadGif(iGifLoaded = pShowGIFFrame->iGifNumber);
+                    dbgprintf("Loading gif number %d\n", pShowGIFFrame->iGifNumber);
+                }
+                Gif::GetFrame(pShowGIFFrame->frame, leds);
+                FastLED.show();
             }
-            Gif::GetFrame(pShowGIFFrame->frame, leds);
-            FastLED.show();
+            else
+            {
+                FastLED.showColor(CRGB::Red);
+            }
             break;
         }
 
