@@ -18,7 +18,7 @@ void setup()
   pinMode(pinGndMeansDom, INPUT_PULLUP);
 
   Util::setup();
-  delay(1000);
+  delay(100);
 
   if (!(SD.begin(pinSDCardCS)))
   {

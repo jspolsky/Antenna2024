@@ -24,7 +24,8 @@ namespace Led
         packetSerial.setPacketHandler(&onPacketReceived);
 
         FastLED.addLeds<WS2812SERIAL, pinLEDStrip, BGR>(leds, NUM_LEDS);
-        FastLED.setBrightness(64);
+        FastLED.setBrightness(32);
+        FastLED.showColor(CRGB::DarkOrange);
 
         pinMode(pinLEDRxIndicator, OUTPUT);
     }
