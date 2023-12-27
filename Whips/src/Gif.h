@@ -13,6 +13,7 @@ namespace Gif
 {
     void setup();
     void LoadGif(uint16_t ixGifNumber);
+    bool GetGifInfo(uint16_t ixGifNumber, int &iDelay);
     void GetFrame(uint32_t frame, CRGB *leds);
 
     void *GIFOpenFile(const char *fname, int32_t *pSize);

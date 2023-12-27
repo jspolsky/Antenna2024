@@ -24,6 +24,43 @@ namespace Gif
     {
     }
 
+    // called by DOM to learn about a GIF
+    // returns true if it exists, false if it doesn't
+    // sets *piDelay to the delay speed to use
+    bool GetGifInfo(uint16_t ixGifNumber, int &iDelay)
+    {
+        char rgchFileName[10];
+        sprintf(rgchFileName, "/%03d.gif", ixGifNumber);
+
+        uint32_t timeStart = millis();
+        if (gif.open(rgchFileName, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
+        {
+            GIFINFO gi;
+
+            dbgprintf("Successfully opened GIF %s; Canvas size = %d x %d\n", rgchFileName, gif.getCanvasWidth(), gif.getCanvasHeight());
+
+            // The getInfo() method can be slow since it walks through the entire GIF file to count the frames
+            // and gather info about total play time. Comment out this section if you don't need this info
+            if (gif.getInfo(&gi))
+            {
+                dbgprintf("frame count: %d\n", gi.iFrameCount);
+                dbgprintf("duration: %d ms\n", gi.iDuration);
+                dbgprintf("max delay: %d ms\n", gi.iMaxDelay);
+                dbgprintf("min delay: %d ms\n", gi.iMinDelay);
+
+                iDelay = gi.iMinDelay;
+            }
+
+            gif.close();
+            dbgprintf("Reading GIF took %d millis\n", millis() - timeStart);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     void LoadGif(uint16_t ixGifNumber)
     {
         char rgchFileName[10];
@@ -33,16 +70,6 @@ namespace Gif
         if (gif.open(rgchFileName, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw))
         {
             dbgprintf("Successfully opened GIF %s; Canvas size = %d x %d\n", rgchFileName, gif.getCanvasWidth(), gif.getCanvasHeight());
-
-            // The getInfo() method can be slow since it walks through the entire GIF file to count the frames
-            // and gather info about total play time. Comment out this section if you don't need this info
-            // if (gif.getInfo(&gi))
-            // {
-            //     dbgprintf("frame count: %d\n", gi.iFrameCount);
-            //     dbgprintf("duration: %d ms\n", gi.iDuration);
-            //     dbgprintf("max delay: %d ms\n", gi.iMaxDelay);
-            //     dbgprintf("min delay: %d ms\n", gi.iMinDelay);
-            // }
 
             if (gif.allocFrameBuf(GIFAlloc) == GIF_SUCCESS)
             {

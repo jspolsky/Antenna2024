@@ -8,6 +8,7 @@
 #include "LedShow.h"
 #include "Commands.h"
 #include "Potentiometers.h"
+#include "Gif.h"
 
 namespace LedShow
 {
@@ -30,9 +31,10 @@ namespace LedShow
 
     void loop(IR::Op op)
     {
-        static int ixGif = 1;
         static Mode modeCurrent = gif;
+        static int ixGif = 1;
         static CRGB rgbSolid = CRGB::Black;
+        static int gifDelay = 40;
 
         if (op != IR::noop)
             dbgprintf("LedShow::op is %d\n", op);
@@ -40,11 +42,27 @@ namespace LedShow
         switch (op)
         {
         case IR::nextImage:
+
             modeCurrent = gif;
-            ixGif++;
-            if (ixGif > 12) // UNDONE - just do this if loading the gif fails
-                ixGif = 1;
-            dbgprintf("new gif number %d\n", ixGif);
+            {
+                bool bDone = false;
+                while (!bDone)
+                {
+                    ixGif++;
+
+                    // try to load that GIF to see if it exists and to get its frame rate
+                    if (Gif::GetGifInfo(ixGif, gifDelay))
+                    {
+                        dbgprintf("new gif number %d\n", ixGif);
+                        bDone = true;
+                    }
+                    else
+                    {
+                        ixGif = 0;
+                    }
+                }
+            }
+
             break;
 
         case IR::red:
@@ -75,16 +93,13 @@ namespace LedShow
             break;
         }
 
-        // UNDONE
-        // This is refreshing every 40 milliseconds
-        // Different GIFs actually have different animation times
-        // Need to load the gif ourselves to figure it out!
-
         switch (modeCurrent)
         {
         case gif:
-            EVERY_N_MILLIS(40)
+            EVERY_N_MILLIS_I(timerName, 400)
             {
+                timerName.setPeriod(gifDelay);
+
                 static cmdShowGIFFrame p3(255, 0, 1);
                 static uint32_t frame = 0;
                 p3.frame = frame++;
