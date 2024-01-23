@@ -47,6 +47,11 @@ void loop()
   {
     IR::Op op = IR::loop();
     LedShow::loop(op);
+
+    EVERY_N_SECONDS(20)
+    {
+      LedShow::loop(IR::nextImageSuggested);
+    }
   }
   else
   {

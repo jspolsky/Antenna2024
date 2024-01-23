@@ -53,9 +53,18 @@ namespace LedShow
         if (op != IR::noop)
             dbgprintf("LedShow::op is %d\n", op);
 
+        if (op == IR::nextImageSuggested)
+        {
+            if (modeCurrent != gif)
+            {
+                op = IR::noop;
+            }
+        }
+
         switch (op)
         {
         case IR::nextImage:
+        case IR::nextImageSuggested:
 
             modeCurrent = gif;
             {

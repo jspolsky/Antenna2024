@@ -14,6 +14,7 @@ namespace IR
     {
         noop,
         nextImage,
+        nextImageSuggested,
         red,
         green,
         blue,
