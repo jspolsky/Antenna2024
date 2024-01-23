@@ -41,6 +41,12 @@ namespace IR
                     // The ⏯️ button - go to the next image
                     return nextImage;
 
+                case 0x5C:
+                    return brighter;
+
+                case 0x5D:
+                    return dimmer;
+
                 case 0x58:
                     return red;
 
@@ -60,8 +66,22 @@ namespace IR
                     break;
                 }
             }
-        }
+            else
+            {
+                // brighter and dimmer are autorepeat buttons!
+                switch (IrReceiver.decodedIRData.command)
+                {
+                case 0x5C:
+                    return brighter;
 
+                case 0x5D:
+                    return dimmer;
+
+                default:
+                    break;
+                }
+            }
+        }
         return noop;
     }
 }

@@ -7,7 +7,6 @@
 #include "IR.h"
 #include "LedShow.h"
 #include "Commands.h"
-#include "Potentiometers.h"
 #include "Gif.h"
 
 namespace LedShow
@@ -35,6 +34,7 @@ namespace LedShow
         static int ixGif = 1;
         static CRGB rgbSolid = CRGB::Black;
         static int gifDelay = 40;
+        static uint8_t brightness = 128;
 
         if (op != IR::noop)
             dbgprintf("LedShow::op is %d\n", op);
@@ -89,6 +89,18 @@ namespace LedShow
             modeCurrent = selfID;
             break;
 
+        case IR::brighter:
+            if (brightness < 255)
+                brightness++;
+            dbgprintf("brightness %d\n", brightness);
+            break;
+
+        case IR::dimmer:
+            if (brightness > 0)
+                brightness--;
+            dbgprintf("brightness %d\n", brightness);
+            break;
+
         default:
             break;
         }
@@ -126,7 +138,7 @@ namespace LedShow
 
         EVERY_N_MILLIS(100)
         {
-            cmdSetBrightness p2(255, Potentiometers::brightness);
+            cmdSetBrightness p2(255, brightness);
             SendPacket(&p2, packetSerial);
         }
     }

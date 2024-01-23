@@ -18,7 +18,9 @@ namespace IR
         green,
         blue,
         white,
-        flash
+        flash,
+        brighter,
+        dimmer,
     };
 
     void setup();

@@ -6,7 +6,6 @@
 #include "LedShow.h"
 #include "DipSwitch.h"
 #include "SdCard.h"
-#include "Potentiometers.h"
 #include "Gif.h"
 #include "IR.h"
 
@@ -32,7 +31,6 @@ void setup()
   if (domMode)
   {
     LedShow::setup();
-    Potentiometers::setup();
     IR::setup();
   }
   else
@@ -47,7 +45,6 @@ void loop()
 {
   if (domMode)
   {
-    Potentiometers::loop();
     IR::Op op = IR::loop();
     LedShow::loop(op);
   }
