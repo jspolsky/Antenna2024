@@ -8,7 +8,7 @@
 #include <WS2812Serial.h>
 #define USE_WS2812SERIAL
 #include <FastLED.h>
-
+#include <EEPROM.h>
 #include "IR.h"
 
 namespace LedShow

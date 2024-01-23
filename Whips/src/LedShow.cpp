@@ -17,7 +17,8 @@ namespace LedShow
         8, 10, 13, 16, 21,
         26, 34, 42, 55, 68,
         81, 110, 144, 178, 255};
-    uint8_t ixBrightness = 10;
+    uint8_t ixBrightness = 0;
+    bool fWriteEEPROM = false;
 
     PacketSerial packetSerial;
 
@@ -33,6 +34,12 @@ namespace LedShow
         dbgprintf("In LedShow.Setup\n");
         Serial1.begin(2000000);
         packetSerial.setStream(&Serial1);
+        ixBrightness = EEPROM.read(0);
+        if (ixBrightness > 19)
+        {
+            ixBrightness = 19;
+            EEPROM.write(0, ixBrightness);
+        }
         dbgprintf("...done\n");
     }
 
@@ -98,13 +105,19 @@ namespace LedShow
 
         case IR::brighter:
             if (ixBrightness < 19)
+            {
                 ixBrightness++;
+                fWriteEEPROM = true;
+            }
             dbgprintf("brightness %d\n", ixBrightness);
             break;
 
         case IR::dimmer:
             if (ixBrightness > 0)
+            {
                 ixBrightness--;
+                fWriteEEPROM = true;
+            }
             dbgprintf("brightness %d\n", ixBrightness);
             break;
 
@@ -149,6 +162,12 @@ namespace LedShow
             {
                 cmdSetBrightness p2(255, rgBrightness[ixBrightness]);
                 SendPacket(&p2, packetSerial);
+
+                if (fWriteEEPROM)
+                {
+                    EEPROM.write(0, ixBrightness);
+                    fWriteEEPROM = false;
+                }
             }
         }
     }
