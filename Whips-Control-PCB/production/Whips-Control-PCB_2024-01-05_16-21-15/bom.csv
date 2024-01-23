@@ -1,0 +1,7 @@
+﻿Designator,Footprint,Quantity,Value,LCSC Part #
+J1,"PhoenixContact_MSTBA_2,5_2-G-5,08_1x02_P5.08mm_Horizontal",1,PWR,
+J2,"PhoenixContact_MSTBA_2,5_2-G-5,08_1x02_P5.08mm_Horizontal",1,DATA,
+RV1,Potentiometer_Alpha_RD901F-40-00D_Single_Vertical,1,R_Potentiometer_US,
+U1,Teensy41_Minimal,1,Teensy4.1_Minimal,
+U2,Max485-Module,1,MAX485E,
+U3,Vishay_MOLD-3Pin,1,TSOP341xx,

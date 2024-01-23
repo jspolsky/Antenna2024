@@ -14,3 +14,6 @@ Whips-PCB/turtle-art/.DS_Store
 Whips-PCB/turtle-art/pieces/.DS_Store
 Whips-Art/Hex/experiment/.DS_Store
 .gitignore
+Whips-Control-PCB/fp-info-cache
+Whips-Control-PCB/production/.DS_Store
+Whips-Control-PCB/Whips-Control-PCB-backups/*
