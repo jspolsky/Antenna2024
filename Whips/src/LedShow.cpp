@@ -11,6 +11,14 @@
 
 namespace LedShow
 {
+    // brightness levels 0-19
+    uint8_t rgBrightness[20] = {
+        1, 2, 3, 4, 6,
+        8, 10, 13, 16, 21,
+        26, 34, 42, 55, 68,
+        81, 110, 144, 178, 255};
+    uint8_t ixBrightness = 10;
+
     PacketSerial packetSerial;
 
     enum Mode
@@ -34,7 +42,6 @@ namespace LedShow
         static int ixGif = 1;
         static CRGB rgbSolid = CRGB::Black;
         static int gifDelay = 40;
-        static uint8_t brightness = 128;
 
         if (op != IR::noop)
             dbgprintf("LedShow::op is %d\n", op);
@@ -90,15 +97,15 @@ namespace LedShow
             break;
 
         case IR::brighter:
-            if (brightness < 255)
-                brightness++;
-            dbgprintf("brightness %d\n", brightness);
+            if (ixBrightness < 19)
+                ixBrightness++;
+            dbgprintf("brightness %d\n", ixBrightness);
             break;
 
         case IR::dimmer:
-            if (brightness > 0)
-                brightness--;
-            dbgprintf("brightness %d\n", brightness);
+            if (ixBrightness > 0)
+                ixBrightness--;
+            dbgprintf("brightness %d\n", ixBrightness);
             break;
 
         default:
@@ -138,8 +145,11 @@ namespace LedShow
 
         EVERY_N_MILLIS(100)
         {
-            cmdSetBrightness p2(255, brightness);
-            SendPacket(&p2, packetSerial);
+            if (ixBrightness > 0 && ixBrightness < 20)
+            {
+                cmdSetBrightness p2(255, rgBrightness[ixBrightness]);
+                SendPacket(&p2, packetSerial);
+            }
         }
     }
 

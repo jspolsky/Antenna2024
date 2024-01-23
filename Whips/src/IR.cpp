@@ -66,21 +66,6 @@ namespace IR
                     break;
                 }
             }
-            else
-            {
-                // brighter and dimmer are autorepeat buttons!
-                switch (IrReceiver.decodedIRData.command)
-                {
-                case 0x5C:
-                    return brighter;
-
-                case 0x5D:
-                    return dimmer;
-
-                default:
-                    break;
-                }
-            }
         }
         return noop;
     }
