@@ -14,8 +14,8 @@ namespace Led
 {
 
     CRGB leds[NUM_LEDS];
-
     PacketSerial packetSerial;
+    uint8_t brightness = 32;
 
     void setup()
     {
@@ -24,7 +24,7 @@ namespace Led
         packetSerial.setPacketHandler(&onPacketReceived);
 
         FastLED.addLeds<WS2812SERIAL, pinLEDStrip, BGR>(leds, NUM_LEDS);
-        FastLED.setBrightness(32);
+        FastLED.setBrightness(brightness);
         FastLED.showColor(CRGB::DarkOrange);
 
         pinMode(pinLEDRxIndicator, OUTPUT);
@@ -34,7 +34,7 @@ namespace Led
     {
         packetSerial.update();
 
-        EVERY_N_MILLIS(1000)
+        EVERY_N_MILLIS(200)
         {
             digitalWriteFast(pinLEDRxIndicator, LOW);
         }
@@ -81,7 +81,23 @@ namespace Led
         {
 
             cmdSetBrightness *pSetBrightness = (cmdSetBrightness *)buffer;
-            FastLED.setBrightness(pSetBrightness->brightness);
+            if (brightness != pSetBrightness->brightness)
+            {
+                brightness = pSetBrightness->brightness;
+                FastLED.setBrightness(128);
+                int ixBrightness = map(brightness, 0, 255, 0, NUM_LEDS);
+                for (int i = 0; i < ixBrightness; i++)
+                {
+                    leds[i] = CRGB::White;
+                }
+                for (int i = ixBrightness; i < NUM_LEDS; i++)
+                {
+                    leds[i] = CRGB::Black;
+                }
+                FastLED.show();
+                FastLED.delay(200);
+                FastLED.setBrightness(pSetBrightness->brightness);
+            }
         }
         break;
 
